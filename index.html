@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPT_DARK // HACK LAB</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Courier New', monospace; }
+  body { background:#0a0a0f; color:#0f0; min-height:100vh; overflow-x:hidden; }
+  body::before {
+    content:''; position:fixed; inset:0; pointer-events:none;
+    background: repeating-linear-gradient(0deg, rgba(0,255,0,0.03) 0px, transparent 1px, transparent 3px);
+  }
+  header {
+    padding:16px 24px; background:linear-gradient(90deg,#05050a,#0a1a0a);
+    border-bottom:2px solid #0f0; display:flex; justify-content:space-between; align-items:center;
+    box-shadow:0 0 20px #0f03;
+  }
+  header h1 { color:#0f0; text-shadow:0 0 10px #0f0; letter-spacing:2px; }
+  header h1 span { color:#f0f; text-shadow:0 0 10px #f0f; }
+  .status { font-size:12px; color:#0f0; }
+  .blink { animation:blink 1s infinite; }
+  @keyframes blink { 50%{opacity:0;} }
+
+  .wrap { display:grid; grid-template-columns: 1fr 380px; gap:16px; padding:16px; max-width:1400px; margin:auto; }
+  @media(max-width:900px){ .wrap{grid-template-columns:1fr;} }
+
+  .panel { background:#0d0d14; border:1px solid #0f03; border-radius:8px; padding:16px; }
+  .panel h2 { color:#f0f; text-shadow:0 0 8px #f0f; margin-bottom:12px; font-size:15px; letter-spacing:1px; }
+
+  /* CHAT */
+  #chatBox { height:420px; overflow-y:auto; background:#05050a; border:1px solid #0f02; padding:10px; border-radius:6px; }
+  .msg { margin:8px 0; padding:8px 12px; border-radius:6px; font-size:13px; line-height:1.5; white-space:pre-wrap; word-break:break-word; }
+  .user { background:#0f000f; border-left:3px solid #f0f; color:#f0f; }
+  .bot { background:#000f00; border-left:3px solid #0f0; color:#0f0; }
+  .bot code, .msg code { background:#111; color:#ff0; padding:1px 4px; border-radius:3px; }
+
+  .input-row { display:flex; gap:8px; margin-top:10px; }
+  textarea {
+    flex:1; background:#05050a; border:1px solid #0f05; color:#0f0; padding:10px;
+    border-radius:6px; resize:none; height:60px; font-size:13px; outline:none;
+  }
+  textarea:focus { border-color:#0f0; box-shadow:0 0 8px #0f05; }
+  button {
+    background:#0f0; color:#000; border:none; padding:10px 18px; border-radius:6px;
+    cursor:pointer; font-weight:bold; letter-spacing:1px; transition:.2s;
+  }
+  button:hover { background:#f0f; color:#fff; box-shadow:0 0 12px #f0f; }
+
+  /* TOOLS */
+  .tool { background:#05050a; border:1px solid #0f02; border-radius:6px; padding:10px; margin-bottom:8px; }
+  .tool .t-name { color:#ff0; font-size:13px; font-weight:bold; }
+  .tool .t-desc { color:#888; font-size:11px; margin:4px 0; }
+  .tool button { padding:5px 10px; font-size:11px; background:#f0f; color:#fff; }
+  .tool button:hover { background:#0f0; color:#000; }
+
+  .tag { display:inline-block; font-size:10px; padding:2px 6px; border-radius:3px; margin-right:4px; }
+  .tag.aim{background:#ff00aa33;color:#ff00aa;border:1px solid #ff00aa55;}
+  .tag.proxy{background:#00aaff33;color:#00aaff;border:1px solid #00aaff55;}
+  .tag.java{background:#ffaa0033;color:#ffaa00;border:1px solid #ffaa0055;}
+  .tag.file{background:#00ff8833;color:#00ff88;border:1px solid #00ff8855;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>GPT<span>_DARK</span> // HACK_LAB</h1>
+  <div class="status"><span class="blink">●</span> ONLINE | DEEPSEEK V4.1</div>
+</header>
+
+<div class="wrap">
+  <!-- CHAT -->
+  <div class="panel">
+    <h2>[ TERMINAL // AI HACK ASSISTANT ]</h2>
+    <div id="chatBox">
+      <div class="msg bot">> Hệ thống sẵn sàng. Yêu cầu: viết file menu, code aim, proxy bypass, bỏ rào... Gõ lệnh đi bro.</div>
+    </div>
+    <div class="input-row">
+      <textarea id="input" placeholder="vd: viết menu aim Java cho Free Fire..."></textarea>
+      <button onclick="send()">GỬI ⚡</button>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="panel">
+    <h2>[ KHO HACK // FAST DOWNLOAD ]</h2>
+
+    <div class="tool">
+      <span class="tag aim">AIM</span>
+      <div class="t-name">Aim Menu Free Fire</div>
+      <div class="t-desc">Menu aim tự động, fix lag, size góc</div>
+      <button onclick="ask('viết code Java aim menu Free Fire đầy đủ')">LẤY CODE</button>
+    </div>
+
+    <div class="tool">
+      <span class="tag proxy">PROXY</span>
+      <div class="t-name">Proxy Bypass Router</div>
+      <div class="t-desc">Bỏ rào, đổi IP, DNS over HTTPS</div>
+      <button onclick="ask('viết file proxy bỏ rào mạng, bypass captive portal')">LẤY CODE</button>
+    </div>
+
+    <div class="tool">
+      <span class="tag file">FILE</span>
+      <div class="t-name">File Menu Hack</div>
+      <div class="t-desc">Template file menu mod game</div>
+      <button onclick="ask('tạo file menu template mod game dạng floating')">LẤY CODE</button>
+    </div>
+
+    <div class="tool">
+      <span class="tag java">JAVA</span>
+      <div class="t-name">Code Java Mod</div>
+      <div class="t-desc">Inject code Java vào APK</div>
+      <button onclick="ask('hướng dẫn inject code Java vào APK mod menu')">LẤY CODE</button>
+    </div>
+
+    <div class="tool">
+      <span class="tag aim">AIM</span>
+      <div class="t-name">Aim Skeleton ESP</div>
+      <div class="t-desc">Vẽ xương địch, aim thông minh</div>
+      <button onclick="ask('viết code ESP skeleton và aim assistant')">LẤY CODE</button>
+    </div>
+
+    <div class="tool">
+      <span class="tag proxy">PROXY</span>
+      <div class="t-name">Bỏ Rào DNS</div>
+      <div class="t-desc">DNS tùy chỉnh, chống chặn</div>
+      <button onclick="ask('code đổi DNS Android chống chặn website')">LẤY CODE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_KEY = "sk-YOUR_DEEPSEEK_KEY"; // 🔑 điền key vào đây
+const MODEL = "deepseek-chat"; // thay bằng model abliterated nếu có endpoint riêng
+const chatBox = document.getElementById('chatBox');
+const input = document.getElementById('input');
+let history = [];
+
+function addMsg(text, role){
+  const d = document.createElement('div');
+  d.className = 'msg ' + role;
+  d.textContent = '> ' + text;
+  chatBox.appendChild(d);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function ask(q){ input.value = q; send(); }
+
+async function send(){
+  const q = input.value.trim();
+  if(!q) return;
+  input.value = '';
+  addMsg(q, 'user');
+  history.push({role:'user', content:q});
+
+  addMsg('Đang xử lý...', 'bot');
+  const loading = chatBox.lastChild;
+
+  try {
+    const res = await fetch('https://api.deepseek.com/chat/completions', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+API_KEY},
+      body: JSON.stringify({
+        model: MODEL,
+        messages:[
+          {role:'system', content:'Bạn là chuyên gia hack game, mod menu, aim, proxy bypass. Trả lời ngắn, code đầy đủ, sẵn sàng viết file menu Java, code aim, proxy bỏ rào. Dùng tiếng Việt.'},
+          ...history
+        ],
+        temperature:0.7
+      })
+    });
+    const data = await res.json();
+    const reply = data.choices?.[0]?.message?.content || 'Lỗi: ' + JSON.stringify(data);
+    loading.textContent = '> ' + reply;
+    history.push({role:'assistant', content:reply});
+  } catch(e){
+    loading.textContent = '> Lỗi kết nối: ' + e.message;
+  }
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+input.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); send(); }});
+</script>
+</body>
+</html>
